@@ -102,10 +102,10 @@ save "Acum_mens_corregido.dta", replace
 clear
 
 **Unir la base historica con la base 2020**
-	 append using Historica_2020 Acum_mens_corregido, force
+	 append using Historica_2021 Acum_mens_corregido, force
 
 	**Guardamos el archivo generado como .dta**
-	 save "Historica_2021.dta", replace
+	 save "Historica_2022.dta", replace
 	 
 **-----------------------Adecuaciones de variables-----------** 
 
@@ -115,7 +115,7 @@ clear
 	 **Renombrar la variable**
 	 rename AÃotermino anio_termina
 
-	 keep if inlist(anio_termina,2019,2021)
+	 keep if inlist(anio_termina,2019,2022)
 	 tab anio_termina
 	 
 	**Corrige errores en la variable PLANTEL**
@@ -172,7 +172,7 @@ clear
 		replace clv_plan=132 if PLANTEL=="PURÍSIMA DEL RINCÓN"
 
 	 **Genera una variable para controlar el periodo**
-	 gen     periodo=1 if inlist(MES,1,2,3,4,5,6,7,8,9,10,11,12) 
+	 gen     periodo=1 if inlist(MES,1) 
 	 replace periodo = 0 if missing(periodo)
 
 /*-------------------Calculo de Indicadores----------------------*/
@@ -182,12 +182,12 @@ clear
 
 gen capacitandos=1
 
-gen capacitandos21=1 if anio_termina==2021 & periodo>0
+gen capacitandos22=1 if anio_termina==2022 & periodo>0
 gen capacitandos19=1 if anio_termina==2019 & periodo>0
 
 mvencode capacitandos21-capacitandos19, mv(0)
 
-tabstat capacitandos21, by(MES) s(sum)
+tabstat capacitandos22, by(MES) s(sum)
 tabstat capacitandos19, by(MES) s(sum)
 
 
