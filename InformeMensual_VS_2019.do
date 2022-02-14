@@ -1,7 +1,7 @@
 
 cd "C:\Reporte_mensual\Bases"
 
-import excel "C:\Reporte_mensual\Bases\CUBO_MENSUAL.xlsx", sheet("Cubo de información 01-01-2021 ") firstrow
+import excel "C:\Reporte_mensual\Bases\CUBO_MENSUAL.xlsx", sheet("Cubo de información enero 2022") firstrow
 
 save "CUBO_MENSUAL.dta", replace
 
@@ -185,7 +185,7 @@ gen capacitandos=1
 gen capacitandos22=1 if anio_termina==2022 & periodo>0
 gen capacitandos19=1 if anio_termina==2019 & periodo>0
 
-mvencode capacitandos21-capacitandos19, mv(0)
+mvencode capacitandos22-capacitandos19, mv(0)
 
 tabstat capacitandos22, by(MES) s(sum)
 tabstat capacitandos19, by(MES) s(sum)
@@ -198,12 +198,12 @@ bys anio_termina ID_ALUMNO: gen dup_persperiodo = cond(_N==1,1,_n)
 gen persPeriodo=1 if dup_persperiodo==1
 replace persPeriodo = 0 if missing(persPeriodo)
 
-gen persPeriodo21=1 if persPeriodo==1 & anio_termina==2021 & periodo>0
+gen persPeriodo22=1 if persPeriodo==1 & anio_termina==2022 & periodo>0
 gen persPeriodo19=1 if persPeriodo==1 & anio_termina==2019 & periodo>0
 
-mvencode persPeriodo21 persPeriodo19 , mv(0)
+mvencode persPeriodo22 persPeriodo19 , mv(0)
 
-tabstat persPeriodo21, by(MES) s(sum)
+tabstat persPeriodo22, by(MES) s(sum)
 tabstat persPeriodo19, by(MES) s(sum)
 
 **Personas Periodo Plantel**
@@ -213,12 +213,12 @@ bys anio_termina clv_plan ID_ALUMNO : gen dup_persperiodoPL = cond(_N ==1,1,_n)
 gen persPeriodoPL=1 if dup_persperiodoPL==1
 replace persPeriodoPL = 0 if missing(persPeriodoPL)
 
-gen persPeriodoPL21=1 if persPeriodoPL==1 & anio_termina==2021 & periodo>0
+gen persPeriodoPL22=1 if persPeriodoPL==1 & anio_termina==2022 & periodo>0
 gen persPeriodoPL19=1 if persPeriodoPL==1 & anio_termina==2019 & periodo>0
 
-mvencode persPeriodoPL21 persPeriodoPL19 , mv(0)
+mvencode persPeriodoPL22 persPeriodoPL19 , mv(0)
 
-tabstat persPeriodoPL21, by(PLANTEL) s(sum)
+tabstat persPeriodoPL22, by(PLANTEL) s(sum)
 tabstat persPeriodoPL19, by(PLANTEL) s(sum)
 
 **Cursos**
@@ -226,62 +226,62 @@ bys anio_termina id_grupo_solicitud: gen cursos_dup = cond(_N==1,1,_n)
 gen cursos=1 if cursos_dup==1
 replace cursos=0 if missing(cursos)
 
-gen cursos21=1 if cursos==1 & anio_termina==2021 & periodo>0
+gen cursos22=1 if cursos==1 & anio_termina==2022 & periodo>0
 gen cursos19=1 if cursos==1 & anio_termina==2019 & periodo>0
 
-mvencode cursos21 cursos19 , mv(0)
+mvencode cursos22 cursos19 , mv(0)
 
-tabstat cursos21, by(MES) s(sum)
+tabstat cursos22, by(MES) s(sum)
 tabstat cursos19, by(MES) s(sum)
 
 **Horas Curso**
- gen horas21=duracion_horas if cursos21==1
+ gen horas22=duracion_horas if cursos22==1
  gen horas19=duracion_horas if cursos19==1
  
- mvencode horas21 horas19 , mv(0)
+ mvencode horas22 horas19 , mv(0)
 
- tabstat horas21, by(MES) s(sum)
+ tabstat horas22, by(MES) s(sum)
  tabstat horas19, by(MES) s(sum)
 
  **Horas Personas**
- gen horas_per21=duracion_horas if anio_termina==2021 & periodo>0
+ gen horas_per22=duracion_horas if anio_termina==2022 & periodo>0
  gen horas_per19=duracion_horas if anio_termina==2019 & periodo>0
- tabstat horas_per21, by(MES) s(sum)
+ tabstat horas_per22, by(MES) s(sum)
  tabstat horas_per19, by(MES) s(sum)
  
  **Aprobados**
- gen cap_apro21=1 if capacitandos21==1 & ESTATUS_ALUMNO=="APROBADO"
+ gen cap_apro22=1 if capacitandos22==1 & ESTATUS_ALUMNO=="APROBADO"
  gen cap_apro19=1 if capacitandos19==1 & ESTATUS_ALUMNO=="APROBADO"
  
- mvencode cap_apro21 cap_apro19 , mv(0)
+ mvencode cap_apro22 cap_apro19 , mv(0)
 
- tabstat cap_apro21, by(MES) s(sum)
+ tabstat cap_apro22, by(MES) s(sum)
  tabstat cap_apro19, by(MES) s(sum)
  
  **Guardamos una archivo para el calculo por mes**
  save"base_mes.dta", replace
  
- collapse (sum) capacitandos21 capacitandos19 persPeriodoPL21 persPeriodoPL19 cursos21 cursos19 cap_apro21 cap_apro19 horas21 horas19 horas_per21 horas_per19, by(clv_plan PLANTEL)
+ collapse (sum) capacitandos22 capacitandos19 persPeriodoPL22 persPeriodoPL19 cursos22 cursos19 cap_apro22 cap_apro19 horas22 horas19 horas_per22 horas_per19, by(clv_plan PLANTEL)
 
  order clv_plan
  
  **Eficiencia terminal** 
- gen eficiencia21=cap_apro21/capacitandos21
+ gen eficiencia22=cap_apro22/capacitandos22
  gen eficiencia19=cap_apro19/capacitandos19
  
  **Capacitandos por Persona**
- gen cap_per21=capacitandos21/persPeriodoPL21
+ gen cap_per22=capacitandos22/persPeriodoPL22
  gen cap_per19=capacitandos19/persPeriodoPL19
  
  **Diferencias**
- gen cap_dif=capacitandos21-capacitandos19
- gen per_dif=persPeriodoPL21-persPeriodoPL19
- gen cur_dif=cursos21-cursos19
- gen hor_dif=horas21-horas19
- gen efic_dif=eficiencia21-eficiencia19
- gen cap_per_dif=cap_per21-cap_per19
+ gen cap_dif=capacitandos22-capacitandos19
+ gen per_dif=persPeriodoPL22-persPeriodoPL19
+ gen cur_dif=cursos22-cursos19
+ gen hor_dif=horas22-horas19
+ gen efic_dif=eficiencia22-eficiencia19
+ gen cap_per_dif=cap_per22-cap_per19
   
-order clv_plan PLANTEL capacitandos21 capacitandos19 cap_dif persPeriodoPL21 persPeriodoPL19 per_dif cursos21 cursos19 cur_dif horas21 horas19 hor_dif cap_apro21 cap_apro19 eficiencia21 eficiencia19 efic_dif  horas_per21 horas_per19 cap_per21 cap_per19 cap_per_dif
+order clv_plan PLANTEL capacitandos22 capacitandos19 cap_dif persPeriodoPL22 persPeriodoPL19 per_dif cursos22 cursos19 cur_dif horas22 horas19 hor_dif cap_apro22 cap_apro19 eficiencia22 eficiencia19 efic_dif  horas_per22 horas_per19 cap_per22 cap_per19 cap_per_dif
 
  **Guardar como .dta**
   save"comparativo.dta", replace
@@ -295,7 +295,7 @@ order clv_plan PLANTEL capacitandos21 capacitandos19 cap_dif persPeriodoPL21 per
   use base_mes
   
   **Reorganizamos la base por mes*
-  collapse (sum) capacitandos21 capacitandos19 persPeriodo21 persPeriodo19 cursos21 cursos19 horas21 horas19 horas_per21 horas_per19 cap_apro21 cap_apro19, by(MES MESTERMINA)
+  collapse (sum) capacitandos22 capacitandos19 persPeriodo22 persPeriodo19 cursos22 cursos19 horas22 horas19 horas_per22 horas_per19 cap_apro22 cap_apro19, by(MES MESTERMINA)
   
   save "comparativo_mes.dta", replace
   
@@ -309,22 +309,28 @@ stop
  import excel "C:\Reporte_mensual\Bases\BaseHistorica_IngresosDAF_v2.xlsx", sheet("MensualIECA") firstrow
 
  rename anio_termino anio_termina
- keep if anio_termina==2019
+ keep if inlist(anio_termina,2019,2022)
 
 drop if missing(anio_termina)
 rename IngresosDAF ingresos
+drop E
+gen ing_2022=ingresos if MES==1 & anio_termina==2022
+gen ing_2019=ingresos if MES==1 & anio_termina==2019
 
+keep if MES==1
+
+collapse (sum) ing_2022 ing_2019, by(MESTERMINA MES)
 rename ingresos ingresos19
 
-save "ingresos_2019.dta", replace
+save "ingresos_mes.dta", replace
 
 clear
 
 ***2020***
-import excel "INGRESOS_MENSUAL.xlsx",sheet("Ingreso cobrado & pendiente") cellrange(A4:P37) firstrow
+/*import excel "INGRESOS_MENSUAL.xlsx",sheet("Ingreso cobrado & pendiente") cellrange(A4:P37) firstrow
 
 mvencode Plantel-Pendientedecobro, mv(0)
-drop Noviembre-Pendientedecobro
+keep Plantel Enero Ingresocobrado
 joinby Plantel using "planteles.dta",unmatched(master)
 drop if Plantel=="Total"
 drop _merge
@@ -358,38 +364,53 @@ reshape long inc_,  i(clv_plan) j(mes)
  order MESTERMINA
   
  **Guardar archivo**
- export excel using "C:\Reporte_mensual\Insumos\comparativo_mes.xlsx", sheetreplace firstrow(variables)
+ export excel using "C:\Reporte_mensual\Insumos\comparativo_mes.xlsx", sheetreplace firstrow(variables)*/
 
 
  
 clear
 **--------------------INGRESOS POR PLANTEL-------------------------**
 
-import excel "C:\Reporte_mensual\Bases\INGRESOS_MENSUAL.xlsx", sheet("Comparativo oct") cellrange(A4:G36) firstrow
+import excel "BaseHistorica_IngresosDAF_v2.xlsx", sheet("BASE") firstrow
 
-drop D F
-destring CeGe, generate(clv_plan) ignore(`"I"', illegal)
-gen dif_ing=AcumuladoaAgo21-AcumuladoaAgo20
-rename AcumuladoaAgo20 ing_2020
-rename AcumuladoaAgo21 ing_2021
-drop CeGe IncrementoóDisminuciónconres
+keep if inlist(anio_termino,2019,2022)
 
-joinby clv_plan using  "comparativo.dta", unmatched(master)
+ **Genera una variable para controlar el periodo**
+	 gen     periodo=1 if inlist(MES,1) 
+	 replace periodo = 0 if missing(periodo)
+	 
+	gen ing_2022=DIngTotal if anio_termino==2022 & periodo>0
+	gen ing_2019=DIngTotal if anio_termino==2019 & periodo>0
+		
+ collapse (sum) ing_2022 ing_2019, by(cve_plantel Plantel)
+ gen dif_ing=ing_2022-ing_2019
+ rename cve_plantel clv_plan
+ 
+ joinby clv_plan using  "comparativo.dta", unmatched(master)
+ 
+ order ing_2022, after(cap_per_dif)
+ order ing_2019, after(ing_2022)
+ order dif_ing, after(ing_2019)
 
-order ing_2021, after(cap_per_dif)
-order ing_2020, after(ing_2021)
-order dif_ing, after(ing_2020)
+ drop Plantel _merge
+ replace PLANTEL="DIRECCIÓN GENERAL" if clv_plan==100
 
-drop Plantel _merge
-replace PLANTEL="DIRECCIÓN GENERAL" if clv_plan==100
-
- mvencode capacitandos21-dif_ing , mv(0)
+ mvencode capacitandos22-dif_ing , mv(0)
  
  save "comparativo.dta", replace
 
 export excel using "C:\Reporte_mensual\Insumos\base_inf_mensual.xlsx", sheetreplace firstrow(variables)
 
 clear
+
+/*drop D F
+destring CeGe, generate(clv_plan) ignore(`"I"', illegal)
+gen dif_ing=AcumuladoaAgo21-AcumuladoaAgo20
+rename AcumuladoaAgo20 ing_2020
+rename AcumuladoaAgo21 ing_2021
+drop CeGe IncrementoóDisminuciónconres*/
+
+
 **--------------------Eficiencia terminal--------------------------**
 
 use "Acum_mens_corregido.dta"
